@@ -13,7 +13,7 @@
 #include <vector>
 using namespace std;
 
-void insertionSort(int a[], int s){
+void insertionSort(int *a, int s){
 	if(s<2) return;
 	int key;
 
@@ -28,7 +28,7 @@ void insertionSort(int a[], int s){
 	}
 }
 
-int partition(int a[], int lo, int hi){   // two way partition
+int partition(int *a, int lo, int hi){   // two way partition
 	int i = lo, j=hi+1;
 	int v = a[lo];
 	while(true){
@@ -42,14 +42,14 @@ int partition(int a[], int lo, int hi){   // two way partition
 }
 
 
-void quickSort(int a[], int lo, int hi){
+void quickSort(int *a, int lo, int hi){
 	if(hi<=lo) return;
 	int j=partition(a, lo, hi);
 	quickSort(a, lo, j-1);
 	quickSort(a, j+1, hi);
 }
 
-void quick3way(int a[], int lo, int hi){   // three way partition quick sort: equal keys in the middle
+void quick3way(int *a, int lo, int hi){   // three way partition quick sort: equal keys in the middle
 	if(hi <= lo) return;
 	int lt = lo, i =lo+1, gt = hi;
 	int key = a[lo];
@@ -63,7 +63,7 @@ void quick3way(int a[], int lo, int hi){   // three way partition quick sort: eq
 }
 
 
-void shellSort(int a[], int s){
+void shellSort(int *a, int s){
 	int h=1;
 	while(h<s/3) h=3*h+1;
 	while(h>=1){
@@ -78,7 +78,7 @@ void shellSort(int a[], int s){
 
 static int *aux;
 
-void merge(int a[], int lo, int mid, int hi){
+void merge(int *a, int lo, int mid, int hi){
 	int i=lo, j=mid+1;
 	for(int k = lo; k<= hi; k++){
 		aux[k] = a[k];
@@ -91,7 +91,7 @@ void merge(int a[], int lo, int mid, int hi){
 	}
 }
 
-void mergeSort(int a[], int lo, int hi){
+void mergeSort(int *a, int lo, int hi){
 	if(hi<=lo) return;
 	int mid = lo+(hi-lo)/2;
 	mergeSort(a, lo, mid);
@@ -99,21 +99,21 @@ void mergeSort(int a[], int lo, int hi){
 	merge(a, lo, mid, hi);
 }
 
-void heapSort(int a[], int s){
+void heapSort(int *a, int s){
 	// make heap
 	
 
 	// heap sort
 }
 
-int linearSearch(int *a, int d){
+int linearSearch(const int *a, const int s, const int d){
 	int i=0;
-	for(i=0; i< sizeof(a)/sizeof(int); ++i)
+	for(i=0; i< s; ++i)
 		if(a[i]==d) break;
 	return i;
 }
 
-void slidingWindowBrute(int a[], int s, int w){
+void slidingWindowBrute(int *a, int s, int w){
 	for(int i =0; i<s-w+1; ++i){
 		int min=a[i];
 		for(int j=i+1; j<i+w; ++j)
@@ -123,7 +123,7 @@ void slidingWindowBrute(int a[], int s, int w){
 	cout << "end" << endl;
 }
 
-void slidingWindowLinear(int a[], int s, int w){
+void slidingWindowLinear(int *a, int s, int w){
 
 }
 
@@ -192,12 +192,12 @@ void reverseWords(string &s) {
 //    s=reversed;
 }
 
-bool isDistinctV(vector <int> a){
+bool isDistinctV(const vector <int> &a){
 	int n = a.size();
 	int hashe;
 	int zeroCount=0;
 	vector<int> b(2*n, 0);
-	for(int& elem : a){
+	for(int elem : a){
 //		cout << "\ninside isDistinct V, element: " << elem << ",";
 		if(elem ==0){
 			++zeroCount;
@@ -216,7 +216,7 @@ bool isDistinctV(vector <int> a){
 	return true;
 }
 
-void swSort(int a[], int lo, int hi){    // sort array into subarrays with 4 ordered elements.
+void swSort(int *a, int lo, int hi){    // sort array into subarrays with 4 ordered elements.
 	int i=lo, j=hi, mid=(hi+lo)/2;
 	if(lo>=hi) return;
 	while(i<j){
@@ -228,7 +228,7 @@ void swSort(int a[], int lo, int hi){    // sort array into subarrays with 4 ord
 	swSort(a, mid+1, hi);
 }
 
-void mergeSwSort(int a[], int s){    // bottom-up mergeSort ...
+void mergeSwSort(int *a, int s){    // bottom-up mergeSort ...
 	for(int sz=1; sz<s; sz=sz+sz){
 		for(int lo=0; lo<s-sz; lo += sz+sz){
 			merge(a, lo, lo+sz-1, min(lo+sz+sz-1, s-1));
@@ -252,7 +252,7 @@ int main() {
     testA.assign(A, A+size);
     cout << "array A is "<< (isDistinctV(testA)? "":"not ") << "distinct." << endl;
 
-	cout<< "12 is at A[" << linearSearch(A,12) << "]" << endl;
+	cout<< "12 is at A[" << linearSearch(A, size, 12) << "]" << endl;
 
 	cout << "input is A[" << size <<"]: ";
 	for(int x : A) cout << x << ",";
